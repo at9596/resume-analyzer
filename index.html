@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<body>
+    <h2>AI Resume Analyzer</h2>
+    <input type="file" id="resumeFile" accept=".pdf">
+    <button onclick="analyze()">Analyze</button>
+    <div id="result" style="white-space: pre-wrap; margin-top: 20px;"></div>
+
+    <script>
+        async function analyze() {
+            const fileInput = document.getElementById('resumeFile');
+            const formData = new FormData();
+            formData.append('resume', fileInput.files[0]);
+
+            document.getElementById('result').innerText = "Analyzing... please wait.";
+
+            const response = await fetch('http://localhost:3000/analyze', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+            document.getElementById('result').innerText = data.analysis;
+        }
+    </script>
+</body>
+</html>
